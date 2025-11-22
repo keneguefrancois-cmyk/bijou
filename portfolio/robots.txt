@@ -1,0 +1,5 @@
+# Autoriser tous les robots à explorer l'ensemble du site.
+User-agent: *
+Disallow:
+
+Sitemap: https://josescan.com/sitemap.xml

@@ -1,0 +1,53 @@
+# ==============================
+# Gemini CLI – Configuration JoseSCAN Design™
+# Intégration complète Bit0 et LMBZ
+# ==============================
+
+# Chemin vers les documents sémantiques Bit0
+$Bit0Dir = "C:\Users\Francois J. KENEGUE\OneDrive\Bureau\bit0"
+
+# Ajouter le dossier Bit0 à la mémoire Gemini (scan récursif)
+Write-Host "Ajout du dossier Bit0 à Gemini CLI..."
+gemini memory add-dir $Bit0Dir --recursive
+
+# Créer et configurer la logique Bit0
+Write-Host "Création de la logique Bit0..."
+gemini logic create Bit0
+gemini logic add-rule Bit0 "IF Session.start THEN Action.prompt='Travaillons-nous en BIT0 ou DECIMAL ?'; END"
+gemini logic add-rule Bit0 "IF File.extension IN ['md','txt','json','py'] THEN Action.applySemanticRules(Bit0); END"
+
+# Créer et configurer la logique LMBZ
+Write-Host "Création de la logique LMBZ..."
+gemini logic create LMBZ
+gemini logic add-rule LMBZ "DEFINE glyph Φ; description 'Concept central'; END"
+gemini logic add-rule LMBZ "DEFINE glyph λ; description 'Transition'; END"
+gemini logic add-rule LMBZ "DEFINE glyph Ξ; description 'Automatisation'; END"
+gemini logic add-rule LMBZ "IF File.extension IN ['psd','aep','blend','json','py'] THEN Action.recommendation='BackupBeforeModify'; END"
+gemini logic add-rule LMBZ "IF Tool.type=='Adobe' AND Entity.hasGlyph('Φ') THEN Action.recommendation='UseAdvancedFeatures'; END"
+
+# Paramètres Gemini CLI recommandés pour JoseSCAN Design™
+Write-Host "Configuration des paramètres Gemini CLI..."
+gemini config set ShowStatusInTitle true
+gemini config set HideTips false
+gemini config set HideBanner false
+gemini config set HideContextSummary false
+gemini config set EnableRecursiveFileSearch true
+gemini config set DisableFuzzySearch false
+gemini config set EnableInteractiveShell true
+gemini config set UseRipgrep true
+gemini config set EnableToolOutputTruncation true
+gemini config set ToolOutputTruncationLines 1000
+gemini config set SkipNextSpeakerCheck true
+gemini config set OutputFormat Text
+
+# Activer la lecture automatique du dossier Bit0 et GEMINI.md du projet
+Write-Host "Activation de la lecture automatique des GEMINI.md et du dossier Bit0..."
+gemini memory add-dir $Bit0Dir --recursive
+gemini config set LoadMemoryFromIncludeDirectories true
+
+# Vérification finale
+Write-Host "Vérification des mémoires et logiques chargées..."
+gemini memory list
+gemini logic list
+
+Write-Host "✅ Gemini CLI est maintenant prêt pour JoseSCAN Design™ avec Bit0 et LMBZ intégrés."

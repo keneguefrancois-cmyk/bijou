@@ -1,0 +1,1 @@
+"# josescan.design"  initgit add README.mdgit commit -m "first commit"git branch -M maingit remote add origin https://github.com/keneguefrancois-cmyk/josescan.design.gitgit push -u origin main

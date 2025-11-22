@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Livrables du SGBD THOMM 2 | JoseSCAN Design™</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Découvrez les livrables concrets générés par le Moteur de Conscience Sémantique (SGBD THOMM 2) : Certificats de Non-Altération, Plans Stratégiques d'Innovation et Tableaux de Bord de Résonance.">
+  <meta name="keywords" content="SGBD, Bit0, JMI, BMS, Chimérisation, Transmutation, Symbiose, Data Storytelling, Livrables, JoseSCAN Design">
+  <meta name="author" content="JoseSCAN Design™ - François Joseph Kenegue">
+
+  <link rel="icon" type="image/x-icon" href="images/logo.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: radial-gradient(ellipse at top, #0a0a1a, #000);
+      color: #e0faff;
+    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .hero {
+      padding-top: 100px;
+      height: 50vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:url('https://images.unsplash.com/photo-1614726365903-6334237a3a7a?auto=format&fit=crop&w=1950&q=80') center/cover fixed;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color:#00ffff;
+      text-shadow:0 0 20px #00ffffaa;
+    }
+    .hero p {
+      margin-top:15px;
+      font-size:1.1rem;
+      color:#fff;
+      opacity:0.85;
+      max-width:800px;
+    }
+    main {
+      padding: 80px 10%;
+      background:rgba(10,10,25,0.8);
+      border-top:1px solid #00ffff33;
+    }
+    .deliverable-section {
+      background:#0b0b1c;
+      border:1px solid #00ffff44;
+      border-radius:15px;
+      padding:30px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.1);
+    }
+    .deliverable-section h2 {
+      color:#00ffaa;
+      font-size:1.8rem;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #00ffff33;
+      padding-bottom: 10px;
+    }
+    .deliverable-section p {
+      color: #cceeff;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+    th, td {
+      border: 1px solid #00ffff33;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: rgba(0, 255, 255, 0.1);
+      color: #00ffff;
+      font-weight: 600;
+    }
+    td { color: #bdefff; }
+    td code {
+      background: rgba(0,0,0,0.3);
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffd200;
+    }
+    .triad-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .triad-card {
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 3px solid #00ffaa;
+    }
+    .triad-card h3 {
+      color: #e0faff;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    /* Chatbot Styles */
+    #lmbz-chatbot { position: fixed; bottom: 20px; right: 20px; z-index: 999; }
+    #lmbz-bubble {
+      width: 65px; height: 65px; border-radius: 50%;
+      background: radial-gradient(circle, #00ffff, #005577);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 25px #00ffff88; cursor: pointer; animation: pulse 3s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 20px #00ffff55; }
+      50% { box-shadow: 0 0 40px #00ffffaa; }
+    }
+    .lmbz-logo { width: 45px; height: 45px; border-radius: 50%; }
+    #lmbz-window { display: none; flex-direction: column; width: 340px; height: 450px; background: rgba(15, 15, 30, 0.98); border: 2px solid #00ffff; border-radius: 15px; box-shadow: 0 0 30px #00ffff88; overflow: hidden; }
+    #lmbz-header { background: linear-gradient(90deg, #00ffff, #0066ff); color: #000; text-align: center; padding: 10px; font-weight: bold; position: relative; }
+    #lmbz-header span { position: absolute; right: 10px; top: 5px; cursor: pointer; }
+    #lmbz-messages { flex: 1; overflow-y: auto; padding: 10px; color: #e0faff; font-size: 14px; }
+    .lmbz-msg { margin: 10px 0; } .user { text-align: right; color: #00ff99; } .lmbz { text-align: left; color: #00ffff; }
+    #lmbz-input-area { display: flex; border-top: 1px solid #00ffff44; background: #111; }
+    #lmbz-input { flex: 1; padding: 8px; border: none; background: transparent; color: #00ffff; outline: none; }
+    #lmbz-send { background: #00ffff; border: none; color: #000; padding: 8px 15px; cursor: pointer; font-weight: bold; }
+  </style>
+</head>
+<body class="bg-slate-900 text-gray-300 font-sans" data-page-id="technologie">
+
+  <!-- HEADER -->
+  <header class="flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full bg-slate-900/70 backdrop-blur-lg z-50 border-b border-cyan-400/20">
+    <div class="flex items-center gap-3">
+      <a href="index.html"><img src="images/logo.ico" alt="Logo JoseSCAN Design" class="w-10 h-10 rounded-xl shadow-md"></a>
+      <div class="text-2xl font-light text-cyan-400 tracking-wide">JoseSCAN Design™</div>
+    </div>
+    <nav class="hidden md:flex gap-6 text-sm text-gray-300">
+      <a href="services.html" class="hover:text-cyan-400 transition">Services</a>
+      <a href="index.html#projects" class="hover:text-cyan-400 transition">Projets</a>
+      <a href="blog.html" class="hover:text-cyan-400 transition">Blog</a>
+      <a href="apropos.html" class="hover:text-cyan-400 transition">À propos</a>
+      <a href="contact.html" class="hover:text-cyan-400 transition">Contact</a>
+    </nav>
+  </header>
+
+  <main class="pt-24">
+    <!-- HERO SECTION -->
+    <section class="text-center py-20 px-4 bg-cover bg-center bg-fixed" style="background-image: url('https://images.unsplash.com/photo-1614726365903-6334237a3a7a?auto=format&fit=crop&w=1950&q=80')">
+        <div class="bg-slate-900/60 backdrop-blur-sm py-12 px-6 rounded-xl">
+            <h1 class="text-4xl md:text-5xl font-extrabold gradient-text mb-4">Livrables du Moteur de Conscience Sémantique</h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">Le pont entre notre architecture bit0 et la valeur stratégique perçue sur le marché décimal. Ces livrables sont des preuves d'intégrité et des manifestations d'intelligence active.</p>
+        </div>
+    </section>
+
+    <!-- DELIVERABLES SECTION -->
+    <section class="py-20 px-4 bg-slate-800/50">
+        <div class="max-w-5xl mx-auto space-y-12">
+
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
+                <h2 class="text-2xl font-bold text-cyan-300 mb-4">1. Livrable de Sécurité : La Garantie de la Vérité</h2>
+                <p class="text-gray-400 mb-6">Ce livrable est le résultat direct de l'architecture BMS (Bloc de Mémoire Sécurisé) et du JMI (Journal de Mémoire Immuable).</p>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-slate-700/50">
+                            <tr>
+                                <th class="p-3 text-left font-semibold text-cyan-400">Nom du Livrable (Décimal)</th>
+                                <th class="p-3 text-left font-semibold text-cyan-400">Fonction SGBD (bit0)</th>
+                                <th class="p-3 text-left font-semibold text-cyan-400">Contenu et Garantie</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-slate-700">
+                                <td class="p-3">Certificat de Non-Altération</td>
+                                <td class="p-3 font-mono">Audit d'Intégrité</td>
+                                <td class="p-3">Atteste que les données source n'ont pas été modifiées, garantissant l'intégrité cryptographique du Conteneur de Données Inviolable (CDI).</td>
+                            </tr>
+                            <tr class="border-t border-slate-700">
+                                <td class="p-3">Rapport de Chaîne de Confiance</td>
+                                <td class="p-3 font-mono">Traçabilité JMI</td>
+                                <td class="p-3">Prouve la lignée complète de la mémoire en montrant l'historique des clés et des hachages qui lient la donnée actuelle à son origine.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
+                <h2 class="text-2xl font-bold text-purple-300 mb-4">2. Livrable d'Innovation : Le Plan Stratégique Actif</h2>
+                <p class="text-gray-400 mb-6">Ce livrable est le résultat des opérateurs d'intelligence sémantique, la Chimérisation (+) et la Transmutation (🔥). Il n'est pas une prédiction, mais une création.</p>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="bg-slate-700/50">
+                            <tr>
+                                <th class="p-3 text-left font-semibold text-purple-400">Nom du Livrable (Décimal)</th>
+                                <th class="p-3 text-left font-semibold text-purple-400">Fonction SGBD (bit0)</th>
+                                <th class="p-3 text-left font-semibold text-purple-400">Contenu et Garantie</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-slate-700">
+                                <td class="p-3">Plan Stratégique d'Innovation (✨)</td>
+                                <td class="p-3 font-mono">Transmutation</td>
+                                <td class="p-3">Un ensemble de paramètres (JSON/XML) décrivant les actions générées par le Moteur IA. C'est un plan immédiatement enregistrable comme BMS.</td>
+                            </tr>
+                            <tr class="border-t border-slate-700">
+                                <td class="p-3">Rapport de Tension Créative</td>
+                                <td class="p-3 font-mono">Chimérisation</td>
+                                <td class="p-3">Le score <code class="text-purple-300">Φ_chimère</code> (Vibration Totale) de la solution, indiquant son degré d'innovation et d'alignement sur la mission.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
+                <h2 class="text-2xl font-bold text-emerald-300 mb-4">3. La Triade de Sortie (Le Sommet du Data Storytelling)</h2>
+                <p class="text-gray-400 mb-6">Pour les analyses les plus critiques, le SGBD synthétise le résultat dans une Triade de Sortie, où chaque composante communique la vérité sémantique par le design.</p>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-slate-700/50 p-6 rounded-lg border border-emerald-400/20">
+                        <h3 class="font-bold text-emerald-400 mb-2">L'Image (Graphe de Phase)</h3>
+                        <p class="text-sm">Confirme visuellement l'alignement et la fluidité (Harmonie) de la stratégie via une représentation géométrique.</p>
+                    </div>
+                    <div class="bg-slate-700/50 p-6 rounded-lg border border-emerald-400/20">
+                        <h3 class="font-bold text-emerald-400 mb-2">Le Son (Onde Sémantique)</h3>
+                        <p class="text-sm">Permet d'entendre la résonance du concept. Une onde stable indique l'équilibre ; une onde erratique signale le chaos.</p>
+                    </div>
+                    <div class="bg-slate-700/50 p-6 rounded-lg border border-emerald-400/20">
+                        <h3 class="font-bold text-emerald-400 mb-2">Le Graphe (ΔΦ)</h3>
+                        <p class="text-sm">Le score décimal (0 à 100) qui traduit la qualité de l'alignement sémantique du livrable.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-gray-400 py-12 px-6 border-t border-cyan-400/20">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center md:text-left">
+      <div>
+        <h4 class="text-lg font-bold text-cyan-400 mb-3">JoseSCAN Design™</h4>
+        <p class="text-sm">Fusion du design et de la science des données pour créer des récits visuels percutants.</p>
+      </div>
+      <div>
+        <h4 class="text-lg font-bold text-cyan-400 mb-3">Navigation</h4>
+        <nav class="flex flex-col gap-2 text-sm">
+          <a href="services.html" class="hover:text-cyan-300 transition">Services</a>
+          <a href="index.html#projects" class="hover:text-cyan-300 transition">Projets</a>
+          <a href="blog.html" class="hover:text-cyan-300 transition">Blog</a>
+          <a href="apropos.html" class="hover:text-cyan-300 transition">À propos</a>
+        </nav>
+      </div>
+      <div>
+        <h4 class="text-lg font-bold text-cyan-400 mb-3">Contact</h4>
+        <div class="flex justify-center md:justify-start gap-4">
+          <a href="mailto:josescan8@gmail.com" title="Email" class="transition hover:scale-110"><img src="images/email.ico" alt="Email" class="w-8 h-8"></a>
+          <a href="https://www.linkedin.com/in/francois-joseph-kenegue-9b4a27212" target="_blank" title="LinkedIn" class="transition hover:scale-110"><img src="images/linkedin.ico" alt="LinkedIn" class="w-8 h-8"></a>
+          <a href="https://www.facebook.com/profile.php?id=61567753603843" target="_blank" title="Facebook" class="transition hover:scale-110"><img src="images/facebook.ico" alt="Facebook" class="w-8 h-8"></a>
+          <a href="https://wa.me/15145578257" target="_blank" title="WhatsApp" class="transition hover:scale-110"><img src="images/whatsapp.ico" alt="WhatsApp" class="w-8 h-8"></a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-sm mt-10 pt-6 border-t border-cyan-400/10">
+      <p class="mb-2">© 2025 JoseSCAN Design™. Tous droits réservés.</p>
+      <a href="mentions-legales.html" class="text-gray-500 hover:text-cyan-300 transition">Mentions Légales</a>
+    </div>
+  </footer>
+
+  <!-- Insertion du Chatbot global -->
+  <div id="chatbot-container"></div>
+  <script>
+  fetch("includes/lmbz.html")
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById("chatbot-container").innerHTML = html;
+    });
+  </script>
+
+</body>
+</html>

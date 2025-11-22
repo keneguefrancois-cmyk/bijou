@@ -1,0 +1,284 @@
+<!-- === LMBZ CHATBOT UNIVERSAL MODULE (Conversational Flow v2) === -->
+<div id="lmbz-chatbot">
+  <div id="lmbz-window">
+    <div id="lmbz-header">
+      <h3>👁️‍🗨️ LMBZ — Assistant Sémanticien</h3>
+      <span id="lmbz-close">✖</span>
+    </div>
+    <div id="lmbz-messages"></div>
+    <div id="lmbz-suggestions"></div>
+    <div id="lmbz-input-area">
+      <input type="text" id="lmbz-input" placeholder="Posez une question ou utilisez les suggestions...">
+      <button id="lmbz-send">→</button>
+    </div>
+  </div>
+  <div id="lmbz-bubble">
+    <img src="images/logo.ico" alt="LMBZ" class="lmbz-logo">
+  </div>
+</div>
+
+<style>
+  /* ======== LMBZ Chatbot Styles (Floating v2) ======== */
+  #lmbz-chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    font-family: "Inter", sans-serif;
+  }
+
+  #lmbz-bubble {
+    background: radial-gradient(circle, #00ffff, #004477);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px #00ffff88;
+    cursor: pointer;
+    animation: pulse 3s infinite;
+    transition: all 0.3s ease;
+    opacity: 1;
+  }
+  #lmbz-bubble:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px #00ffff;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 20px #00ffff44; }
+    50% { box-shadow: 0 0 40px #00ffffaa; }
+  }
+  .lmbz-logo { width: 48px; height: 48px; border-radius: 50%; }
+
+  #lmbz-window {
+    display: flex;
+    position: absolute;
+    bottom: 90px;
+    right: 0;
+    width: 360px;
+    max-height: 550px;
+    background: rgba(10, 15, 30, 0.95);
+    border: 1px solid #00ffffaa;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.4);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    transform: translateY(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0.3s;
+  }
+
+  #lmbz-window.lmbz-visible {
+    visibility: visible;
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0s;
+  }
+
+  #lmbz-header {
+    background: linear-gradient(90deg, #00ffffaa, #0077ffcc);
+    color: #000;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    position: relative;
+    flex-shrink: 0;
+  }
+  #lmbz-header #lmbz-close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  #lmbz-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    color: #e0faff;
+    font-size: 14px;
+  }
+  .lmbz-msg { margin: 10px 0; line-height: 1.5; }
+  .user { text-align: right; color: #00ff99; }
+  .lmbz { text-align: left; color: #00ffff; }
+  
+  #lmbz-suggestions {
+    padding: 5px 10px;
+    border-top: 1px solid #00ffff22;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .suggestion-chip {
+    background: #00ffff22;
+    border: 1px solid #00ffff66;
+    color: #00ffff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+  }
+  .suggestion-chip:hover { background: #00ffff44; }
+
+  #lmbz-input-area {
+    display: flex;
+    border-top: 1px solid #00ffff44;
+    background: #111;
+    flex-shrink: 0;
+  }
+  #lmbz-input {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    color: #00ffff;
+    outline: none;
+  }
+  #lmbz-send {
+    background: #00ffff;
+    border: none;
+    color: #000;
+    padding: 0 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  #lmbz-send:hover { background: #00ffaa; }
+</style>
+
+<script>
+  /* ======== LMBZ Chatbot Logic (Conversational Flow v2) ======== */
+  const bubble = document.getElementById("lmbz-bubble");
+  const windowBox = document.getElementById("lmbz-window");
+  const closeBtn = document.getElementById("lmbz-close");
+  const sendBtn = document.getElementById("lmbz-send");
+  const input = document.getElementById("lmbz-input");
+  const messages = document.getElementById("lmbz-messages");
+  const suggestionsContainer = document.getElementById("lmbz-suggestions");
+
+  let hasGreeted = false;
+
+  // === Bot Data ===
+  const botData = {
+    main_menu: {
+      message: "Bonjour ! Comment puis-je vous guider ?",
+      suggestions: ["Quels services proposez-vous ?", "En savoir plus sur vos technologies", "Questions fréquentes (FAQ)", "Comment vous contacter ?"]
+    },
+    services_menu: {
+      message: "Nos services se concentrent sur la valorisation de la donnée par le design et la sémantique. Lequel vous intéresse ?",
+      suggestions: ["Data Storytelling", "Graphisme IA", "Analyse Sémantique", "Retour"]
+    },
+    tech_menu: {
+      message: "Notre stack technologique est unique. Elle fusionne la sémantique et la blockchain. De quoi voulez-vous parler ?",
+      suggestions: ["Bit0", "ΦChain", "Garantie Blockchain", "Retour"]
+    },
+    faq_menu: {
+      message: "Voici les questions les plus fréquentes. Laquelle vous intéresse ?",
+      suggestions: ["C'est quoi, le Data Storytelling ?", "Travaillez-vous avec des IA ?", "Pour quel type de client travaillez-vous ?", "Comment démarrer un projet ?", "Retour"]
+    },
+    answers: {
+      "Quels services proposez-vous ?": "services_menu",
+      "En savoir plus sur vos technologies": "tech_menu",
+      "Questions fréquentes (FAQ)": "faq_menu",
+      "Comment vous contacter ?": "Vous pouvez nous contacter via la page de contact. [Cliquez ici pour être redirigé](contact.html)",
+      "Data Storytelling": "C'est l'art de transformer des données complexes en récits visuels clairs et percutants pour aider à la prise de décision. Nous fusionnons l'analyse, le design et la narration.",
+      "Graphisme IA": "Nous utilisons l'IA pour générer des concepts visuels et augmenter notre créativité, tout en gardant une supervision humaine pour garantir une qualité éditoriale et une reproductibilité parfaite.",
+      "Analyse Sémantique": "C'est le décodage des structures symboliques de vos données (textes, logs, etc.) pour transformer le bruit informationnel en modèles de connaissance exploitables, notamment via notre technologie Bit0.",
+      "Bit0": "Bit0 est notre système sémantique interne. Il ne se contente pas de classer l'information, il lui assigne une valeur et une fréquence, nous permettant de cartographier l'ADN d'un concept.",
+      "ΦChain": "ΦChain est notre blockchain expérimentale qui nous sert à sceller et tracer nos analyses. C'est la garantie que nos livrables sont authentiques et n'ont pas été altérés.",
+      "Garantie Blockchain": "Ce service permet de sceller nos livrables (analyses, designs) sur une blockchain. Cela offre une preuve d'authenticité et de non-altération, une traçabilité complète de notre travail.",
+      "C'est quoi, le Data Storytelling ?": "C'est l'art de transformer des données complexes en récits visuels clairs et percutants pour aider à la prise de décision. Nous fusionnons l'analyse, le design et la narration.",
+      "Travaillez-vous avec des IA ?": "Oui, l'IA est au cœur de notre service 'Graphisme IA'. Nous l'utilisons pour générer des concepts visuels et augmenter notre créativité, tout en gardant une supervision humaine pour la qualité finale.",
+      "Pour quel type de client travaillez-vous ?": "Nous travaillons avec des entreprises de toutes tailles, des startups aux grands groupes, qui cherchent à valoriser leurs données ou à créer des identités visuelles fortes et innovantes.",
+      "Comment démarrer un projet ?": "Tout commence par une discussion ! Utilisez le formulaire sur la page de contact pour nous décrire votre besoin. Nous vous proposerons ensuite un devis et un plan d'action. [Aller à la page contact](contact.html)",
+      "Retour": "main_menu"
+    }
+  };
+
+  // === Core Functions ===
+  function openChat() {
+    windowBox.classList.add("lmbz-visible");
+    bubble.style.opacity = '0';
+    bubble.style.pointerEvents = 'none';
+    localStorage.setItem("LMBZ_open", "true");
+    if (!hasGreeted) {
+      navigateTo("main_menu");
+      hasGreeted = true;
+    }
+  }
+
+  function closeChat() {
+    windowBox.classList.remove("lmbz-visible");
+    bubble.style.opacity = '1';
+    bubble.style.pointerEvents = 'auto';
+    localStorage.setItem("LMBZ_open", "false");
+  }
+
+  function navigateTo(menuKey) {
+    const menu = botData[menuKey];
+    if (menu) {
+      appendMessage(menu.message, "lmbz");
+      showSuggestions(menu.suggestions);
+    }
+  }
+
+  function showSuggestions(suggestions) {
+    suggestionsContainer.innerHTML = "";
+    suggestions.forEach(text => {
+      const chip = document.createElement("div");
+      chip.className = "suggestion-chip";
+      chip.textContent = text;
+      chip.onclick = () => handleUserInput(text);
+      suggestionsContainer.appendChild(chip);
+    });
+  }
+
+  function appendMessage(text, sender) {
+    const msg = document.createElement("div");
+    msg.classList.add("lmbz-msg", sender);
+    // Basic markdown for links
+    text = text.replace(/\\\[(.*?)\\\]\\((.*?)\\\\)/g, '<a href="$2" class="text-cyan-300 hover:underline">$1</a>');
+    msg.innerHTML = text;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function handleUserInput(text) {
+    if (!text) return;
+    appendMessage(text, "user");
+    input.value = "";
+
+    const answer = botData.answers[text];
+    if (answer) {
+      if (botData[answer]) { // It's a menu key
+        navigateTo(answer);
+      } else { // It's a direct answer
+        appendMessage(answer, "lmbz");
+        showSuggestions(botData.main_menu.suggestions); // Return to main menu suggestions
+      }
+    } else {
+      appendMessage("Je ne suis pas certain de comprendre. Pouvez-vous reformuler ou utiliser une des suggestions ?", "lmbz");
+      navigateTo("main_menu");
+    }
+  }
+
+  // === Event Listeners ===
+  bubble.onclick = openChat;
+  closeBtn.onclick = closeChat;
+  sendBtn.onclick = () => handleUserInput(input.value.trim());
+  input.addEventListener("keypress", e => { if (e.key === "Enter") handleUserInput(input.value.trim()); });
+
+  // === Initial State ===
+  if (localStorage.getItem("LMBZ_open") === "true") {
+    openChat();
+  }
+
+</script>
+<!-- === END LMBZ CHATBOT MODULE === -->
